@@ -270,8 +270,21 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  // numbers multiplied by 2 minus 9 if bigger than 9 after multiplication
+  const luhnArray = [0, 2, 4, 6, 8, 1, 3, 5, 7, 9];
+  let res = 0;
+  let currentNum;
+  let odd = true;
+  const str = ccn.toString();
+  if (str.length === 0) return false;
+  for (let i = str.length - 1; i >= 0; i -= 1) {
+    currentNum = parseInt(str[i], 10);
+    // odd numbers stay the same
+    res += (odd) ? currentNum : luhnArray[currentNum];
+    odd = !odd;
+  }
+  return (res % 10 === 0);
 }
 
 /**
@@ -288,8 +301,17 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  const str = num.toString();
+  let sum = 0;
+  for (let i = 0; i < str.length; i += 1) {
+    sum += parseInt(str[i], 10);
+  }
+  if (sum >= 10) {
+    sum = getDigitalRoot(sum);
+    return sum;
+  }
+  return sum;
 }
 
 
@@ -314,8 +336,21 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+const brackets = ['<>', '[]', '{}', '()'];
+
+function isBracketsBalanced(str) {
+  const arr = str.split('');
+  for (let i = 0; i < arr.length; i += 1) {
+    for (let j = 0; j < brackets.length; j += 1) {
+      if (`${arr[i]}${arr[i + 1]}` === brackets[j]) {
+        arr.splice(i, 2);
+        i = -1;
+      }
+    }
+  }
+
+  if (arr.length === 0) return true;
+  return false;
 }
 
 
@@ -357,6 +392,15 @@ function toNaryString(/* num, n */) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(/* pathes */) {
+  // let common = '';
+  // for (let i = 0; i < pathes.length; i += 1) {
+  //   for (let j = 0; j < pathes[i].length; j += 1) {
+  //     if (pathes[i][j] === pathes[i + 1][j] && pathes[i + 1] !== undefined) {
+  //       common += pathes[i][j];
+  //     }
+  //   }
+  // }
+  // return common;
   throw new Error('Not implemented');
 }
 
@@ -379,8 +423,20 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const arr = [];
+  for (let h = 0; h < m1.length; h += 1) {
+    arr[h] = [];
+    for (let i = 0; i < m2[0].length; i += 1) {
+      let sum = 0;
+      for (let j = 0; j < m1[0].length; j += 1) {
+        sum += m1[h][j] * m2[j][i];
+        // let sum = sum + a;
+      }
+      arr[h][i] = sum;
+    }
+  }
+  return arr;
 }
 
 
