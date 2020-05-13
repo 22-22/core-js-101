@@ -80,14 +80,10 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
-function timeSpanToString(/* startDate, endDate */) {
-  // const hour = endDate.getHours() - startDate.getHours();
-  // const min = endDate.getMinutes() - startDate.getMinutes();
-  // const sec = endDate.getSeconds() - startDate.getSeconds();
-  // const mSec = endDate.getMilliseconds() - startDate.getMilliseconds();
-  // const res = new Date(hour, min, sec, mSec);
-  // return res.toUTCString;
-  throw new Error('Not implemented');
+function timeSpanToString(startDate, endDate) {
+  const diff = Math.abs(endDate - startDate);
+  const date = new Date(diff);
+  return date.toJSON().slice(11, -1);
 }
 
 
@@ -108,6 +104,15 @@ function timeSpanToString(/* startDate, endDate */) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(/* date */) {
+  // const h = date.getUTCHours();
+  // const min = date.getMinutes();
+  // const hoursAngle = 360 * (h / 12) + (360 / 12) * (min / 60);
+  // const minAngle = 360 * (min / 60);
+  // // const angleBetweenHands = 0.5 * (60 * h - 11 * min);
+  // // return angleBetweenHands * (Math.PI / 180);
+  // if (minAngle > hoursAngle) {
+  //   return (minAngle - hoursAngle) * (Math.PI / 180);
+  // } return (hoursAngle - minAngle) * (Math.PI / 180);
   throw new Error('Not implemented');
 }
 
