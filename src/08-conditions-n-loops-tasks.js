@@ -129,8 +129,15 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  const bottom1 = rect1.top + rect1.width;
+  const bottom2 = rect2.top + rect2.width;
+  const right1 = rect1.left + rect1.height;
+  const right2 = rect2.left + rect2.height;
+
+  if ((rect1.top > bottom2) || (bottom1 < rect2.top)
+    || (rect1.left > right2) || (right1 < rect2.left)) { return false; }
+  return true;
 }
 
 
@@ -162,7 +169,7 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  */
 function isInsideCircle(circle, point) {
   const distance = Math.sqrt((point.x - circle.center.x) ** 2
-  + (point.y - circle.center.y) ** 2);
+    + (point.y - circle.center.y) ** 2);
   if (distance < circle.radius) {
     return true;
   } return false;
@@ -215,8 +222,12 @@ function findFirstSingleChar(str) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  const openBrack = isStartIncluded ? '[' : '(';
+  const closeBrack = isEndIncluded ? ']' : ')';
+  if (a < b) {
+    return `${openBrack}${a}, ${b}${closeBrack}`;
+  } return `${openBrack}${b}, ${a}${closeBrack}`;
 }
 
 
@@ -395,6 +406,14 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
+// const splitStrings = (a) => a.map((i) => i.split('/'));
+// const elAt = (i) => (a) => a[i];
+// const rotate = (a) => a[0].map((e, i) => a.map(elAt(i)));
+// const allElementsEqual = (arr) => arr.every((e) => e === arr[0]);
+
+// const getCommonDirectoryPath = (pathes) => rotate(splitStrings(pathes))
+//   .filter(allElementsEqual).map(elAt(0)).join('/');
+
 function getCommonDirectoryPath(/* pathes */) {
   throw new Error('Not implemented');
 }
