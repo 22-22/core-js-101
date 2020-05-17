@@ -130,12 +130,12 @@ function isTriangle(a, b, c) {
  *
  */
 function doRectanglesOverlap(rect1, rect2) {
-  const bottom1 = rect1.top + rect1.width;
-  const bottom2 = rect2.top + rect2.width;
+  const bot1 = rect1.top + rect1.width;
+  const bot2 = rect2.top + rect2.width;
   const right1 = rect1.left + rect1.height;
   const right2 = rect2.left + rect2.height;
 
-  if ((rect1.top > bottom2) || (bottom1 < rect2.top)
+  if ((rect1.top > bot2) || (bot1 < rect2.top)
     || (rect1.left > right2) || (right1 < rect2.left)) { return false; }
   return true;
 }
@@ -414,8 +414,21 @@ function toNaryString(num, n) {
 // const getCommonDirectoryPath = (pathes) => rotate(splitStrings(pathes))
 //   .filter(allElementsEqual).map(elAt(0)).join('/');
 
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const pathesSplit = pathes.map((arr) => arr.split('/'));
+  // ['/web/images/image1.png', '/web/images/image2.png']  =>
+  // [["", ""], ["web", "web"], ["images", "images"], ["image1.png", "image2.png"]]
+  const arrSortedByIndex = pathesSplit[0].map((el, idx) => pathesSplit.map((arr) => arr[idx]));
+  const common = arrSortedByIndex.filter((arr) => arr.every((el) => el === arr[0]))
+    // create an array of the first elements
+    .map((arr) => arr[0])
+    .join('/');
+
+  let res = common === '' ? '/' : `${common}/`;
+  pathes.forEach((arr) => {
+    if (arr[0] !== '/') res = '';
+  });
+  return res;
 }
 
 

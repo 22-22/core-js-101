@@ -24,7 +24,7 @@
  *
  */
 function getComposition(f, g) {
-  return function compose(...x) {
+  return function composeFuncs(...x) {
     return f(g(...x));
   };
 }
@@ -89,13 +89,13 @@ function getPolynom(...args) {
  */
 function memoize(func) {
   const cache = new Map();
-  return function check(x) {
-    if (cache.has(x)) {
-      return cache.get(x);
+  return function check(arg) {
+    if (cache.has(arg)) {
+      return cache.get(arg);
     }
-    const result = func(x);
-    cache.set(x, result);
-    return result;
+    const res = func(arg);
+    cache.set(arg, res);
+    return res;
   };
 }
 
@@ -150,8 +150,28 @@ function retry(func, attempts) {
  * cos(3.141592653589793) ends
  *
  */
-function logger(/* func, logFunc */) {
-  throw new Error('Not implemented');
+function logger(func, logFunc) {
+  return function log(...args) {
+    let argsAfterCheckingTypes = '';
+    args.forEach((arg) => {
+      if (Array.isArray(arg)) {
+        const array = arg.map((item) => {
+          if (typeof item === 'string') {
+            return `"${item}"`;
+          } return item;
+        })
+          .join(',');
+        argsAfterCheckingTypes += `[${array}],`;
+      } else {
+        argsAfterCheckingTypes += `${arg}`;
+      }
+    });
+
+    logFunc(`${func.name}(${argsAfterCheckingTypes}) starts`);
+    const res = func(...args);
+    logFunc(`${func.name}(${argsAfterCheckingTypes}) ends`);
+    return res;
+  };
 }
 
 
@@ -192,8 +212,12 @@ function partialUsingArguments(fn, ...args1) {
  *   getId4() => 7
  *   getId10() => 11
  */
-function getIdGeneratorFunction(/* startFrom */) {
-  throw new Error('Not implemented');
+function getIdGeneratorFunction(startFrom) {
+  let counter = -1;
+  return function generateId() {
+    counter += 1;
+    return startFrom + counter;
+  };
 }
 
 
